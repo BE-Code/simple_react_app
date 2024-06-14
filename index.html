@@ -6,13 +6,82 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="root"></div>
     <script type="text/babel">
       const { useState } = React;
+
+      const NameInput = ({ value, onChange }) => {
+        const handleChange = event => {
+          const text = event.target.value;
+          onChange(text);
+        };
+
+        return (
+          <div className="nameInput">
+            <input onChange={handleChange} value={value} />
+          </div>
+        );
+      }
+
+
+      const NameForm = ({ onResponse }) => {
+        const [name, setName] = useState("");
+        const [ages, setAges] = useState({});
+
+        const addAge = (newName, newAge) => {
+          const newAges = {...ages};
+          newAges[newName] = newAge;
+          setAges(newAges);
+        }
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+
+          if (name in ages) {
+            onResponse(ages[name]);
+          }
+          else {
+            let url = `https://api.agify.io?name=${name}`;
+            $.get( url, function( data ) {
+              addAge(name, data.age);
+              onResponse(data.age);
+            });
+          }
+        }
+
+        const handleNameChange = (value) => setName(value);
+
+        return (
+          <form onSubmit={handleSubmit} className="nameForm">
+            <NameInput
+              onChange={handleNameChange}
+              value={name}
+            />
+            <input type="submit" value="Submit" className="submitButton" />
+          </form>
+        );
+      }
+
+
       const App = () => {
-        return (<div>Implement me!</div>);
+        const [age, setAge] = useState("");
+        const handleAgeResponse = (value) => setAge(value);
+
+        return (
+          <div className="appContainer">
+            <h1>Age Prediction</h1>
+            <NameForm 
+              onResponse={handleAgeResponse}
+            />
+            <div className="ageCard">
+              <span>Your Age</span>
+              <div className="age">{age}</div>
+            </div>
+          </div>
+        );
       }
 
       ReactDOM.render(<App />, document.querySelector('#root'));

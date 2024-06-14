@@ -1,5 +1,7 @@
 # Cloverhound Software Developer Interview Challenge
 
+![screenshot](screenshot.jpg)
+
 ## Overview
 In this repo is a single [`index.html`](./index.html) file with everything you will need.
 
