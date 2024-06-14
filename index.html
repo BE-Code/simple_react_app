@@ -12,24 +12,46 @@
     <script type="text/babel">
       const { useState } = React;
 
-      const NameInput = () => {
+      const NameInput = ({ value, onChange }) => {
+        const handleChange = event => {
+          const text = event.target.value;
+          onChange(text);
+        };
+
         return (
-          <input type="text" id="nameInput" name="name" placeholder="Name" />
+          <div className="nameInput">
+            <input onChange={handleChange} value={value} />
+          </div>
         );
       }
 
-      const SubmitButton = () => {
+      const NameForm = () => {
+        const [name, setName] = useState("");
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+          console.log(`Name: ${name}`);
+        }
+
+        const handleNameChange = (value) => {
+          setName(value);
+        };
+
         return (
-          <input type="submit" value="Submit" />
+          <form onSubmit={handleSubmit}>
+            
+            <NameInput
+              onChange={handleNameChange}
+              value={name}
+            />
+            <input type="submit" value="Submit" />
+          </form>
         );
       }
 
       const App = () => {
         return (
-          <form>
-            <NameInput />
-            <SubmitButton />
-          </form>
+          <NameForm />
         );
       }
 
