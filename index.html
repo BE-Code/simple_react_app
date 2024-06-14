@@ -6,6 +6,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src='https://unpkg.com/babel-standalone@6.26.0/babel.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div id="root"></div>
@@ -43,7 +44,6 @@
             onResponse(ages[name]);
           }
           else {
-            console.log("Making request");
             let url = `https://api.agify.io?name=${name}`;
             $.get( url, function( data ) {
               addAge(name, data.age);
@@ -55,13 +55,12 @@
         const handleNameChange = (value) => setName(value);
 
         return (
-          <form onSubmit={handleSubmit}>
-            
+          <form onSubmit={handleSubmit} className="nameForm">
             <NameInput
               onChange={handleNameChange}
               value={name}
             />
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit" className="submitButton" />
           </form>
         );
       }
@@ -72,11 +71,15 @@
         const handleAgeResponse = (value) => setAge(value);
 
         return (
-          <div>
+          <div className="appContainer">
+            <h1>Age Prediction</h1>
             <NameForm 
               onResponse={handleAgeResponse}
             />
-            <div>{age}</div>
+            <div className="ageCard">
+              <span>Your Age</span>
+              <div className="age">{age}</div>
+            </div>
           </div>
         );
       }
