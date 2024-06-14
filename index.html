@@ -11,8 +11,26 @@
     <div id="root"></div>
     <script type="text/babel">
       const { useState } = React;
+
+      const NameInput = () => {
+        return (
+          <input type="text" id="nameInput" name="name" placeholder="Name" />
+        );
+      }
+
+      const SubmitButton = () => {
+        return (
+          <input type="submit" value="Submit" />
+        );
+      }
+
       const App = () => {
-        return (<div>Implement me!</div>);
+        return (
+          <form>
+            <NameInput />
+            <SubmitButton />
+          </form>
+        );
       }
 
       ReactDOM.render(<App />, document.querySelector('#root'));
