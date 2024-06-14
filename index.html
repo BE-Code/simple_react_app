@@ -28,14 +28,28 @@
 
       const NameForm = ({ onResponse }) => {
         const [name, setName] = useState("");
+        const [ages, setAges] = useState({});
+
+        const addAge = (newName, newAge) => {
+          const newAges = {...ages};
+          newAges[newName] = newAge;
+          setAges(newAges);
+        }
 
         const handleSubmit = (event) => {
           event.preventDefault();
 
-          let url = `https://api.agify.io?name=${name}`;
-          $.get( url, function( data ) {
-            onResponse(data.age);
-          })
+          if (name in ages) {
+            onResponse(ages[name]);
+          }
+          else {
+            console.log("Making request");
+            let url = `https://api.agify.io?name=${name}`;
+            $.get( url, function( data ) {
+              addAge(name, data.age);
+              onResponse(data.age);
+            });
+          }
         }
 
         const handleNameChange = (value) => setName(value);
