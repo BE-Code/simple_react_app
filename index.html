@@ -32,7 +32,11 @@
 
         const handleSubmit = (event) => {
           event.preventDefault();
-          console.log(`Name: ${name}`);
+
+          let url = `https://api.agify.io?name=${name}`;
+          $.get( url, function( data ) {
+            console.log(data);
+          })
         }
 
         return (
